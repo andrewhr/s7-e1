@@ -14,6 +14,7 @@ describe Status do
 
   before(:each) do
     @status = Status.new
+    PROCESS_OUTPUT.should_receive(:close).once
     IO.should_receive(:popen).and_return(PROCESS_OUTPUT)
   end
 

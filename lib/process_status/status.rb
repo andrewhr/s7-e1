@@ -12,6 +12,7 @@ module ProcessStatus
         next if index == 0
         processes << parse_process(line)
       end
+      output.close
       processes.sort_by { |p| p.cpu_usage }.reverse
     end
 
