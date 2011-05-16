@@ -14,11 +14,19 @@ describe Status do
 
   before(:each) do
     @status = Status.new
-    @status.should_receive(:popen) { PROCESS_OUTPUT }
+    IO.should_receive(:popen).and_return(PROCESS_OUTPUT)
   end
 
   it "retrieves all running processes" do
     @status.processes.count.should == 6
+  end
+
+  it "retrives processes sorted in reverse order" do
+    status = @status.processes
+    status.each_with_index do |p, index|
+      next if index == 0
+      p.cpu_usage.should <= status[index - 1].cpu_usage
+    end
   end
 
   describe "and for each process" do
@@ -28,19 +36,19 @@ describe Status do
     end
 
     it "retrives process user" do
-      @process.user.should == 'root'
+      @process.user.should == 'andrewhr'
     end
 
     it "retrives process percentage of CPU usage" do
-      @process.cpu_usage.should == 0.017
+      @process.cpu_usage.should == 2.8
     end
 
-    it "retrives process start time" do
-      @process.pid.should == 1
+    it "retrives process id" do
+      @process.pid.should == 225
     end
 
     it "retrives process command" do
-      @process.command.should == "/sbin/launchd"
+      @process.command.should == "/Applications/Safari.app/Contents/MacOS/Safari -psn_0_110619"
     end
 
   end
