@@ -5,7 +5,7 @@ module ProcessStatus
     Process = Struct.new :pid, :command, :user, :cpu_usage
 
     def processes
-      output = IO.popen("ps -eo user,pcpu,pid,command")
+      output = IO.popen("ps -eo user,pcpu,pid,comm")
 
       processes = []
       output.lines.each_with_index do |line, index|

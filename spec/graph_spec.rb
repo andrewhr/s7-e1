@@ -11,7 +11,7 @@ describe Graph do
       Status::Process.new(1, "cmd1", "user", 3.023),
       Status::Process.new(2, "cmd2", "user", 0.42)
     ]
-    history = [last_status, current_status]
+    history = History.new [last_status, current_status]
     @graph = Graph.new history
   end
 

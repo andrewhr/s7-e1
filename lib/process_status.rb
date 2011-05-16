@@ -7,13 +7,12 @@ module ProcessStatus
   class Runner
     def self.start
       status = Status.new
-      graph = Graph.new
-
-      history = []
+      history = History.new
       loop do
         system('clear')
-        history = [history.last, status.processes.first(10)]
-        graph.print history
+        history << status.processes.first(10)
+        graph = Graph.new(history)
+        puts graph
         sleep 1
       end
     end
