@@ -2,6 +2,8 @@ module ProcessStatus
 
   class History
 
+    HUNGRY_PROCESS_THERESHOLD = 15.0
+
     def initialize(status = nil)
       unless status.nil?
         if status.kind_of? Array
@@ -37,6 +39,10 @@ module ProcessStatus
         end
       end
       :up
+    end
+
+    def hungry_processes
+      current.select { |p| p.cpu_usage >= HUNGRY_PROCESS_THERESHOLD }
     end
 
     def current

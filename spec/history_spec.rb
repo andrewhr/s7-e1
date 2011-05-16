@@ -37,4 +37,10 @@ describe History do
     @history.process_rank(1).should == :down
   end
 
+  it "categorizes as hungry processes that are using more than 15% cpu" do
+    hungry_one = Status::Process.new(42, "yummy!", "user", 15.0)
+    @history.current << hungry_one
+    @history.hungry_processes.should include(hungry_one)
+  end
+
 end
