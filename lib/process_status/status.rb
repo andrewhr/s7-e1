@@ -2,6 +2,8 @@ module ProcessStatus
 
   class Status
 
+    Process = Struct.new :pid, :command, :user, :cpu_usage
+
     def processes
       output = IO.popen("ps -eo user,pcpu,pid,command")
 
@@ -13,10 +15,6 @@ module ProcessStatus
       processes.sort_by { |p| p.cpu_usage }.reverse
     end
 
-    private
-
-    Process = Struct.new :user, :cpu_usage, :pid, :command
-
     def parse_process(string)
       process_regex = %r{
         (?<user> [_\w]+ ){0}
@@ -27,7 +25,7 @@ module ProcessStatus
         ^\g<user>\s+\g<cpu_usage>\s+\g<pid>\s+\g<command>$
       }x
       attributes = string.match(process_regex)
-      Process.new attributes[:user], attributes[:cpu_usage].to_f, attributes[:pid].to_i, attributes[:command]
+      Process.new attributes[:pid].to_i, attributes[:command], attributes[:user], attributes[:cpu_usage].to_f
     end
 
   end

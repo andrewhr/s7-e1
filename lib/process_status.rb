@@ -1,4 +1,5 @@
 require 'process_status/status'
+require 'process_status/history'
 require 'process_status/graph'
 
 module ProcessStatus

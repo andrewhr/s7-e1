@@ -2,11 +2,17 @@ module ProcessStatus
 
   class Graph
 
-    def print(history)
-      history.last.each_with_index do |process, index|
-        marker = process_marker(history, process, index)
-        puts "#{marker} #{process.pid.to_s.ljust(8)} #{process.user.ljust(20)}\t#{process.cpu_usage.round(2).to_s}%\t#{process.command}"
+    def initialize(history)
+      @history = history
+    end
+
+    def to_s
+      string = ''
+      @history.last.each_with_index do |process, index|
+        marker = process_marker(@history, process, index)
+        string << "#{marker} #{process.pid.to_s.ljust(8)} #{process.user.ljust(20)}\t#{process.cpu_usage.round(2).to_s}%\t#{process.command}\n"
       end
+      string
     end
 
     private
