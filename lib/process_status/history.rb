@@ -5,7 +5,7 @@ module ProcessStatus
     HUNGRY_PROCESS_THERESHOLD = 15.0
 
     def initialize(status = nil)
-      unless status.nil?
+      if status
         if status.kind_of? Array
           timeline.concat(status)
         else
@@ -19,7 +19,7 @@ module ProcessStatus
     end
 
     def each
-      current.each_with_index do |process, index|
+      current.each do |process|
         yield(process)
       end
     end
@@ -30,7 +30,7 @@ module ProcessStatus
       last_status = timeline[-2] || current
       last_index = last_status.find_index { |p| p.pid == pid }
 
-      unless last_index.nil?
+      if last_index
         # remember: the status list are expected to be sorted descending!
         if current_index.nil? or last_index < current_index
           return :down

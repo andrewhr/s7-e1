@@ -13,7 +13,7 @@ describe History do
       Status::Process.new(3, "cmd3", "user", 1.0),
       Status::Process.new(2, "cmd2", "user", 0.42)
     ]
-    @history = History.new [last_status, current_status]
+    @history = History.new([last_status, current_status])
   end
 
   it "calculates if processes have gone up" do

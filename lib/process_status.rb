@@ -19,14 +19,14 @@ module ProcessStatus
         graph = Graph.new(history)
         puts graph
 
-        self.notify (history.hungry_processes) unless history.hungry_processes.empty?
+        notify history.hungry_processes unless history.hungry_processes.empty?
 
         sleep 1
       end
     end
 
     def self.notify(processes)
-      message = "The following process appears to be consuming to much cpu resources: "
+      message = "The following process are consuming too much cpu resources: "
       processes.each do |p|
         Growl.growl("Warning!", message + "#{p.command} (#{p.user})")
       end

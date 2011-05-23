@@ -7,15 +7,14 @@ root       0.0    10 /usr/libexec/kextd
 root       0.0    11 /usr/sbin/notifyd
 root       0.0   232 login -pf andrewhr
 andrewhr   0.0   233 -bash
-andrewhr   2.8   225 /Applications/Safari.app/Contents/MacOS/Safari -psn_0_110619
+andrewhr   2.8   225 /Applications/Safari.app/Contents/MacOS/Safari -psn_0_123
 OUT
 
 describe Status do
 
   before(:each) do
     @status = Status.new
-    PROCESS_OUTPUT.should_receive(:close).once
-    IO.should_receive(:popen).and_return(PROCESS_OUTPUT)
+    IO.should_receive(:popen).and_yield(PROCESS_OUTPUT)
   end
 
   it "retrieves all running processes" do
@@ -49,7 +48,8 @@ describe Status do
     end
 
     it "retrives process command" do
-      @process.command.should == "/Applications/Safari.app/Contents/MacOS/Safari -psn_0_110619"
+      command = "/Applications/Safari.app/Contents/MacOS/Safari -psn_0_123"
+      @process.command.should == command
     end
 
   end
