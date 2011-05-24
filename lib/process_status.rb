@@ -1,14 +1,14 @@
 require 'process_status/status'
 require 'process_status/history'
 require 'process_status/graph'
-require 'process_status/growl'
+require 'ruby-growl'
 
 module ProcessStatus
 
   class Runner
 
     def self.start
-      status = Status.new
+      status  = Status.new
       history = History.new
 
       loop do
@@ -25,10 +25,14 @@ module ProcessStatus
       end
     end
 
+    def self.growl
+      @growl ||= Growl.new("localhost", "ruby-growl", ["ruby-growl Notification"])
+    end
+
     def self.notify(processes)
       message = "The following process are consuming too much cpu resources: "
       processes.each do |p|
-        Growl.growl("Warning!", message + "#{p.command} (#{p.user})")
+        growl.notify("ruby-growl Notification", "Warning!", message + "#{p.command} (#{p.user})")
       end
     end
 
