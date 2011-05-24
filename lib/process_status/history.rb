@@ -5,13 +5,7 @@ module ProcessStatus
     HUNGRY_PROCESS_THERESHOLD = 15.0
 
     def initialize(status = nil)
-      if status
-        if status.kind_of? Array
-          timeline.concat(status)
-        else
-          timeline << status 
-        end
-      end
+      timeline.concat Array(status) if status
     end
 
     def << (status)
